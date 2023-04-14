@@ -1,30 +1,28 @@
 fb-feed-node
+
 A flawless Facebook authentication and feed package for Node.js and Express.js applications.
 
 Installation
-To install the package, run:
+
+You can install the package using NPM:
 
 npm install fb-feed-node
 
 Usage
-To use the package, you need to have a Facebook Developer account and a Facebook App.
 
-Create a new Facebook App in the Facebook Developer Console.
+To use the fb-feed-node package in your Node.js or Express.js application, you first need to create a Facebook App and get your App ID and App Secret. Once you have your App ID and App Secret, create a .env file in your project root directory and add the following lines:
 
-Add the "Facebook Login" product to your app and configure the settings.
-
-Note down the App ID and App Secret values from your Facebook App dashboard.
-
-Configure the .env file in your project directory with the FB_APP_ID and FB_APP_SECRET values:
-
-makefile
 FB_APP_ID=your_facebook_app_id
 FB_APP_SECRET=your_facebook_app_secret
-Create a new Express.js application and add the following code:
 
-javascript
+Replace your_facebook_app_id and your_facebook_app_secret with your actual Facebook App ID and App Secret.
+
+Next, create a simple Express.js application with a route that handles Facebook authentication and user data retrieval using the fb-feed-node package:
+
 const express = require('express');
 const fbAuth = require('fb-feed-node');
+const dotenv = require('dotenv');
+dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -42,23 +40,30 @@ app.get('/auth/facebook/callback', async (req, res) => {
 });
 
 app.listen(PORT, () => console.log(`Server listening on port ${PORT}`));
-Make sure to replace your_facebook_app_id with your actual Facebook App ID.
 
-In your frontend, create a Facebook Login URL that directs users to the /auth/facebook/callback route in your Express.js application:
+In this example, the fbAuth function from the fb-feed-node package is used to authenticate the user and fetch user data and feeds. The Facebook Login URL should point to /auth/facebook/callback route in your Express.js application.
 
-bash
-https://www.facebook.com/v13.0/dialog/oauth?client_id=your_facebook_app_id&redirect_uri=http://localhost:3000/auth/facebook/callback&scope=email,public_profile,user_posts
-Replace your_facebook_app_id with your actual Facebook App ID.
+To test the package, create a simple HTML file with a login button that redirects users to the Facebook Login URL:
 
-After successful login and authorization, the fbAuth function will fetch user data and user posts from Facebook and return the results as a JSON object.
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Facebook Login Test</title>
+</head>
+<body>
+  <h1>Facebook Login Test</h1>
+  <a href="https://www.facebook.com/v13.0/dialog/oauth?client_id=your_facebook_app_id&redirect_uri=http://localhost:3000/auth/facebook/callback&scope=email,public_profile,user_posts">Login with Facebook</a>
+</body>
+</html>
+
+Replace your_facebook_app_id with your actual Facebook App ID. Then, open the HTML file in a browser and click on the "Login with Facebook" button. After successful login and authorization, the user should be redirected to the /auth/facebook/callback route, and the userData and userFeeds should be returned as a JSON response.
 
 Contributing
-Pull requests and issues are welcome. To submit a pull request:
 
-Fork the repository and create a new branch.
-Make changes and add tests.
-Run npm test to ensure that the tests pass.
-Submit a pull request with a description of the changes.
+If you find any bugs or issues with the fb-feed-node package, please open an issue on the GitHub repository. Pull requests are welcome as well!
 
 License
-This package is licensed under the MIT License. See the LICENSE file for more information.
+
+This package is licensed under the MIT License. See the LICENSE file for details.
